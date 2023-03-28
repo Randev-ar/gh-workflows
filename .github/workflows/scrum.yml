@@ -26,7 +26,7 @@ jobs:
 
   createMilestone:
     name: 🗄 Creating User Story
-    if: contains( github.event.issue.labels*.name, 'milestone') || contains( github.event.issue.labels*.name, 'US') || contains( github.event.issue.title, '[US]')
+    if: contains( github.event.issue.labels.*.name, 'milestone') || contains( github.event.issue.labels.*.name, 'US') || contains( github.event.issue.title, '[US]')
     runs-on: ubuntu-latest
     steps:
       - name: Milestone Actions
