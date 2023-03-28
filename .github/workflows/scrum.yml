@@ -12,40 +12,25 @@ on:
 
 jobs:
   addIssueToProject:
+    name: 📝 Adding Issue to Project
     uses: ./.github/workflows/add_issue_to_project.yml
     secrets:
       TEAM_PROJECT_URL: ${{ secrets.TEAM_PROJECT_URL }}
       ADD_TO_PROJECT_PAT: ${{ secrets.ADD_TO_PROJECT_PAT }}
 
-  createMilestone:
+  createUserStory:
     name: 🗄 Creating User Story
     if: contains( github.event.issue.labels.*.name, 'milestone') || contains( github.event.issue.labels.*.name, 'US') || contains( github.event.issue.title, '[US]')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Milestone Actions
-        id: createmilestone
-        uses: kyoyadmoon/milestone-actions@v1.0.0
-        with:
-          title: "${{ github.event.issue.title }}"
-          description: "${{ github.event.issue.body }}"
-          # due_on: # An optional timestamp for due date of the milestone
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: echo Milestone number
-        run: echo ${{ steps.createmilestone.outputs.number }}
-
-      - name: echo Milestone id
-        run: echo ${{ steps.createmilestone.outputs.id }}
-
-      - name: echo Milestone html_url
-        run: echo ${{ steps.createmilestone.outputs.html_url }}
+    uses: ./.github/workflows/create_milestone_from_issue.yml
+    secrets:
+      TEAM_PROJECT_URL: ${{ secrets.TEAM_PROJECT_URL }}
+      ADD_TO_PROJECT_PAT: ${{ secrets.ADD_TO_PROJECT_PAT }}
 
   addMilestoneToIssueCreated:
     # Asignar issue de milestone al milestone creado
     name: ✔ Add issue to UserStory
     if: contains(github.event.issue.labels.*.name, 'milestone')
-    needs: createMilestone
+    needs: createUserStory
     runs-on: ubuntu-latest
     steps:
       - uses: guguducken/milestone-add-action@v0.0.1
