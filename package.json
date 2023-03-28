@@ -1,0 +1,11 @@
+{
+  "name": "gh-workflows",
+  "version": "0.1.1",
+  "description": "Workflows de Github",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
